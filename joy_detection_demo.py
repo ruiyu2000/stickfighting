@@ -371,14 +371,14 @@ def joy_detector(num_frames, preview_alpha, image_format, image_folder,
 
             sio.emit('movement', {'score': joy_score})
 
-            # animator.update_joy_score(joy_score)
-            # event = joy_threshold_detector.send(joy_score)
-            # if event == 'high':
-            #     logger.info('High joy detected.')
-            #     player.play(JOY_SOUND)
-            # elif event == 'low':
-            #     logger.info('Low joy detected.')
-            #     player.play(SAD_SOUND)
+            animator.update_joy_score(joy_score)
+            event = joy_threshold_detector.send(joy_score)
+            if event == 'high':
+                logger.info('High joy detected.')
+                player.play(JOY_SOUND)
+            elif event == 'low':
+                logger.info('Low joy detected.')
+                player.play(SAD_SOUND)
 
             if server:
                 server.send_overlay(svg_overlay(faces, frame_size, joy_score))
@@ -431,5 +431,5 @@ def main():
 
     return 0
 
-# if __name__ == '__main__':
-#     sys.exit(main())
+if __name__ == '__main__':
+    sys.exit(main())
