@@ -87,7 +87,9 @@ class Game extends Component {
     for (var i = 0; i <= maxFrames; ++i) {
       player1Sprites[i] = new Image();
       player1Sprites[i].src =
-        process.env.PUBLIC_URL + "/images/sprites/" + i + ".svg";
+        "https://jonkantner.com/experiments/stick_fight/sprites/player1/player" +
+        i +
+        ".svg";
       if (i == maxFrames) {
         anim1 = function() {
           if (player1.dead == false) {
