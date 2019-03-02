@@ -1,0 +1,13 @@
+{
+  "name": "stickfighting",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Rui Yu <rui.yu@bouvet.no>",
+  "license": "MIT",
+  "dependencies": {
+    "@tensorflow-models/posenet": "^0.2.3",
+    "@tensorflow/tfjs-node": "^0.3.1",
+    "canvas": "^2.3.1",
+    "xhr2": "^0.1.4"
+  }
+}
