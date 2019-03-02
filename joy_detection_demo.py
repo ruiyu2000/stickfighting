@@ -85,7 +85,7 @@ sio.connect('http://10.168.74.81:8000')
 
 sio.emit('subscribeToMovement', {'response': 123})
 
-sio.wait()
+# sio.wait()
 
 
 logger = logging.getLogger(__name__)
@@ -121,6 +121,7 @@ def run_inference(num_frames, on_loaded):
     with CameraInference(face_detection.model()) as inference:
         on_loaded()
         for result in inference.run(num_frames):
+            logger.info(result)
             yield face_detection.get_faces(result), (result.width, result.height)
 
 
