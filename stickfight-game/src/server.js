@@ -4,6 +4,10 @@ io.on("connection", client => {
   client.on("subscribeToMovement", interval => {
     console.log("client is subscribing to movement data ");
     client.emit("server", "ready");
+
+    setInterval(function() {
+      client.emit("action", "hit");
+    }, 5000);
   });
 
   client.on("update", function(data) {
