@@ -7,10 +7,6 @@ class Game extends Component {
   componentDidMount() {
     socket.emit("subscribeToMovement");
 
-    socket.on("server", function (message) {
-      console.log("Message from server: " + message);
-    });
-
     var canvas = document.getElementById("canvas"),
       ctx = canvas.getContext("2d"),
       width = 800,
@@ -86,52 +82,55 @@ class Game extends Component {
     // load player 1 sprites
     for (var i = 0; i <= maxFrames; ++i) {
       player1Sprites[i] = new Image();
-      player1Sprites[i].src = require("./" + i + ".svg");
-      if (i === maxFrames) {
-        anim1 = function () {
-          if (player1.dead === false) {
+      player1Sprites[i].src =
+        "https://jonkantner.com/experiments/stick_fight/sprites/player1/player" +
+        i +
+        ".svg";
+      if (i == maxFrames) {
+        anim1 = function() {
+          if (player1.dead == false) {
             if (
               (keys[65] && !player1.jumping) ||
-              (left_P1 === true && !player1.jumping)
+              (left_P1 == true && !player1.jumping)
             ) {
               // move left
               ctx.drawImage(player1Sprites[frameLP1], player1.x, player1.y);
               ++frameLP1;
-              if (frameLP1 === 22) {
+              if (frameLP1 == 22) {
                 frameLP1 = 11;
               }
             } else if (
               (keys[68] && !player1.jumping) ||
-              (right_P1 === true && !player1.jumping)
+              (right_P1 == true && !player1.jumping)
             ) {
               // move right
               ctx.drawImage(player1Sprites[frameRP1], player1.x, player1.y);
               ++frameRP1;
-              if (frameRP1 === 11) {
+              if (frameRP1 == 11) {
                 frameRP1 = 1;
               }
-            } else if (player1.jumping === true) {
+            } else if (player1.jumping == true) {
               // jump
-              if (player1.lastDir === "l") {
+              if (player1.lastDir == "l") {
                 ctx.drawImage(player1Sprites[24], player1.x, player1.y);
               } else {
                 ctx.drawImage(player1Sprites[23], player1.x, player1.y);
               }
-            } else if (keys[16] || b_P1 === true) {
+            } else if (keys[16] || b_P1 == true) {
               // attack
-              if (player1.lastDir === "l") {
+              if (player1.lastDir == "l") {
                 ctx.drawImage(
                   player1Sprites[frameLPunchP1],
                   player1.x - player1.width / 2,
                   player1.y
                 );
-                if (frameLPunchP1 !== 36) {
+                if (frameLPunchP1 != 36) {
                   ++frameLPunchP1;
                   // dealing damage from right
                   if (
                     player1.x - player1.range <= player2.x + player2.width &&
                     player1.x - player1.range >=
-                    player2.x - player2.width / 2 &&
+                      player2.x - player2.width / 2 &&
                     player1.y >= player2.y &&
                     player1.y <= player2.y + player2.height
                   ) {
@@ -140,7 +139,7 @@ class Game extends Component {
                     //sound[1].play();
                   }
                 }
-                if (frameLPunchP1 === 46) {
+                if (frameLPunchP1 == 46) {
                   frameLPunchP1 = 36;
                 }
               } else {
@@ -149,13 +148,13 @@ class Game extends Component {
                   player1.x,
                   player1.y
                 );
-                if (frameRPunchP1 !== 25) {
+                if (frameRPunchP1 != 25) {
                   ++frameRPunchP1;
                   // dealing damage from left
                   if (
                     player1.x + player1.width + player1.range >= player2.x &&
                     player1.x + player1.width + player1.range <=
-                    player2.x + player2.width * 1.5 &&
+                      player2.x + player2.width * 1.5 &&
                     player1.y >= player2.y &&
                     player1.y <= player2.y + player2.height
                   ) {
@@ -164,7 +163,7 @@ class Game extends Component {
                     //sound[1].play();
                   }
                 }
-                if (frameRPunchP1 === 35) {
+                if (frameRPunchP1 == 35) {
                   frameRPunchP1 = 25;
                 }
               }
@@ -182,56 +181,55 @@ class Game extends Component {
     // load player 2 sprites
     for (var j = 0; j <= maxFrames; ++j) {
       player2Sprites[j] = new Image();
-      var src = "https://jonkantner.com/experiments/stick_fight/sprites/player2/player" +
+      player2Sprites[j].src =
+        "https://jonkantner.com/experiments/stick_fight/sprites/player2/player" +
         j +
         ".svg";
-      player2Sprites[j].src = src;
-
-      if (j === maxFrames) {
-        anim2 = function () {
-          if (player2.dead === false) {
+      if (j == maxFrames) {
+        anim2 = function() {
+          if (player2.dead == false) {
             if (
               (keys[37] && !player2.jumping) ||
-              (left_P2 === true && !player2.jumping)
+              (left_P2 == true && !player2.jumping)
             ) {
               // move left
               ctx.drawImage(player2Sprites[frameLP2], player2.x, player2.y);
               ++frameLP2;
-              if (frameLP2 === 22) {
+              if (frameLP2 == 22) {
                 frameLP2 = 11;
               }
             } else if (
               (keys[39] && !player2.jumping) ||
-              (right_P2 === true && !player2.jumping)
+              (right_P2 == true && !player2.jumping)
             ) {
               // move right
               ctx.drawImage(player2Sprites[frameRP2], player2.x, player2.y);
               ++frameRP2;
-              if (frameRP2 === 11) {
+              if (frameRP2 == 11) {
                 frameRP2 = 1;
               }
-            } else if (player2.jumping === true) {
+            } else if (player2.jumping == true) {
               // jump
-              if (player2.lastDir === "l") {
+              if (player2.lastDir == "l") {
                 ctx.drawImage(player2Sprites[24], player2.x, player2.y);
               } else {
                 ctx.drawImage(player2Sprites[23], player2.x, player2.y);
               }
-            } else if (keys[186] || b_P2 === true) {
+            } else if (keys[186] || b_P2 == true) {
               // attack
-              if (player2.lastDir === "l") {
+              if (player2.lastDir == "l") {
                 ctx.drawImage(
                   player2Sprites[frameLPunchP2],
                   player2.x - player2.width / 2,
                   player2.y
                 );
-                if (frameLPunchP2 !== 36) {
+                if (frameLPunchP2 != 36) {
                   ++frameLPunchP2;
                   // dealing damage from right
                   if (
                     player2.x - player2.range <= player1.x + player1.width &&
                     player2.x - player2.range >=
-                    player1.x - player1.width / 2 &&
+                      player1.x - player1.width / 2 &&
                     player2.y >= player1.y &&
                     player2.y <= player1.y + player1.height
                   ) {
@@ -240,7 +238,7 @@ class Game extends Component {
                     //sound[1].play();
                   }
                 }
-                if (frameLPunchP2 === 46) {
+                if (frameLPunchP2 == 46) {
                   frameLPunchP2 = 36;
                 }
               } else {
@@ -249,13 +247,13 @@ class Game extends Component {
                   player2.x,
                   player2.y
                 );
-                if (frameRPunchP2 !== 25) {
+                if (frameRPunchP2 != 25) {
                   ++frameRPunchP2;
                   // dealing damage from left
                   if (
                     player2.x + player2.width + player2.range >= player1.x &&
                     player2.x + player2.width + player2.range <=
-                    player1.x + player1.width * 1.5 &&
+                      player1.x + player1.width * 1.5 &&
                     player2.y >= player1.y &&
                     player2.y <= player1.y + player1.height
                   ) {
@@ -264,7 +262,7 @@ class Game extends Component {
                     //sound[1].play();
                   }
                 }
-                if (frameRPunchP2 === 35) {
+                if (frameRPunchP2 == 35) {
                   frameRPunchP2 = 25;
                 }
               }
@@ -279,19 +277,10 @@ class Game extends Component {
     }
     healthP2.style.width = player2.health + "%";
 
-    //player 1 actions from SERVER WOOT
-    socket.on("action", function (message) {
-      console.log("action from server: " + message);
-      triggerKeyEvent(16, "keydown", "shift");
-      setTimeout(function () {
-        triggerKeyEvent(16, "keyup", "shift");
-      }, 200);
-    });
-
     function update() {
       // jump
       // player 1
-      if (keys[87] || a_P1 === true) {
+      if (keys[87] || a_P1 == true) {
         if (!player1.jumping) {
           player1.jumping = true;
           player1.velY = -player2.speed * 2;
@@ -303,7 +292,7 @@ class Game extends Component {
         }
       }
       // player 2
-      if (keys[38] || a_P2 === true) {
+      if (keys[38] || a_P2 == true) {
         if (!player2.jumping) {
           player2.jumping = true;
           player2.velY = -player2.speed * 2;
@@ -316,14 +305,14 @@ class Game extends Component {
       }
       // move left
       // player 1
-      if (keys[65] || left_P1 === true) {
+      if (keys[65] || left_P1 == true) {
         if (player1.velX > -player1.speed) {
           player1.velX--;
           player1.lastDir = "l";
         }
       }
       // player 2
-      if (keys[37] || left_P2 === true) {
+      if (keys[37] || left_P2 == true) {
         if (player2.velX > -player2.speed) {
           player2.velX--;
           player2.lastDir = "l";
@@ -331,14 +320,14 @@ class Game extends Component {
       }
       // move right
       // player 1
-      if (keys[68] || right_P1 === true) {
+      if (keys[68] || right_P1 == true) {
         if (player1.velX < player1.speed) {
           player1.velX++;
           player1.lastDir = "r";
         }
       }
       // player 2
-      if (keys[39] || right_P2 === true) {
+      if (keys[39] || right_P2 == true) {
         if (player2.velX < player2.speed) {
           player2.velX++;
           player2.lastDir = "r";
@@ -350,21 +339,19 @@ class Game extends Component {
       if (player1.x + 120 < player2.x) {
         //we are to the right, move towards p1 on the left
         triggerKeyEvent(37, "keydown", "left");
-        setTimeout(function () {
+        setTimeout(function() {
           triggerKeyEvent(37, "keyup", "left");
         }, 200);
       } else if (player1.x - 120 > player2.x) {
         triggerKeyEvent(39, "keydown", "right");
-        setTimeout(function () {
+        setTimeout(function() {
           triggerKeyEvent(39, "keyup", "right");
         }, 200);
       } else {
-        if (punchTimeout === null) {
-          console.log("setting punchTimeout");
-          punchTimeout = setInterval(function () {
-            console.log("hit");
+        if (punchTimeout == null) {
+          punchTimeout = setInterval(function() {
             triggerKeyEvent(186, "keydown", "shift");
-            setTimeout(function () {
+            setTimeout(function() {
               triggerKeyEvent(186, "keyup", "shift");
             }, 200);
           }, 1200);
@@ -436,29 +423,29 @@ class Game extends Component {
       anim2();
 
       // death animations
-      if (deathTime !== 0 && deathTime < 14) {
+      if (deathTime != 0 && deathTime < 14) {
         ++deathTime;
-        if (player1.dead === true) {
-          if (player1.lastDir === "l") {
+        if (player1.dead == true) {
+          if (player1.lastDir == "l") {
             ctx.drawImage(player1Sprites[46 + deathTime], player1.x, player1.y);
           } else {
             ctx.drawImage(player1Sprites[60 + deathTime], player1.x, player1.y);
           }
-          if (deathTime === 13) {
+          if (deathTime == 13) {
             incKO(player2, "p2-kills");
           }
-        } else if (player2.dead === true) {
-          if (player2.lastDir === "l") {
+        } else if (player2.dead == true) {
+          if (player2.lastDir == "l") {
             ctx.drawImage(player2Sprites[46 + deathTime], player2.x, player2.y);
           } else {
             ctx.drawImage(player2Sprites[60 + deathTime], player2.x, player2.y);
           }
-          if (deathTime === 13) {
+          if (deathTime == 13) {
             incKO(player1, "p1-kills");
           }
         }
       }
-      if (deathTime === 14) {
+      if (deathTime == 14) {
         deathTime = 14;
       }
 
@@ -518,7 +505,7 @@ class Game extends Component {
       if (victim.health <= 0) {
         victim.dead = true;
         deathTime = 1;
-        setTimeout(function () {
+        setTimeout(function() {
           respawn(victim, victimHealth);
         }, 400);
       }
@@ -564,20 +551,20 @@ class Game extends Component {
     function respawn(newLife, healthToFill) {
       deathTime = 0;
       newLife.dead = false;
-      newLife.x = newLife === player1 ? width / 4 : width * 0.75 - 50;
+      newLife.x = newLife == player1 ? width / 4 : width * 0.75 - 50;
       newLife.y = height - 100;
       newLife.health = 100;
       healthToFill.style.width = newLife.health + "%";
       healthToFill.style.background = "#0a0";
     }
 
-    window.addEventListener("load", function () {
+    window.addEventListener("load", function() {
       update();
     });
-    document.body.addEventListener("keydown", function (e) {
+    document.body.addEventListener("keydown", function(e) {
       keys[e.keyCode] = true;
     });
-    document.body.addEventListener("keyup", function (e) {
+    document.body.addEventListener("keyup", function(e) {
       keys[e.keyCode] = false;
     });
 
@@ -602,108 +589,108 @@ class Game extends Component {
       b_P2 = false;
 
     // player 1 buttons
-    leftBtn_P1.addEventListener("mousedown", function () {
+    leftBtn_P1.addEventListener("mousedown", function() {
       left_P1 = true;
     });
-    leftBtn_P1.addEventListener("mouseup", function () {
+    leftBtn_P1.addEventListener("mouseup", function() {
       left_P1 = false;
     });
-    leftBtn_P1.addEventListener("touchstart", function () {
+    leftBtn_P1.addEventListener("touchstart", function() {
       left_P1 = true;
     });
-    leftBtn_P1.addEventListener("touchend", function () {
+    leftBtn_P1.addEventListener("touchend", function() {
       left_P1 = false;
     });
 
-    rightBtn_P1.addEventListener("mousedown", function () {
+    rightBtn_P1.addEventListener("mousedown", function() {
       right_P1 = true;
     });
-    rightBtn_P1.addEventListener("mouseup", function () {
+    rightBtn_P1.addEventListener("mouseup", function() {
       right_P1 = false;
     });
-    rightBtn_P1.addEventListener("touchstart", function () {
+    rightBtn_P1.addEventListener("touchstart", function() {
       right_P1 = true;
     });
-    rightBtn_P1.addEventListener("touchend", function () {
+    rightBtn_P1.addEventListener("touchend", function() {
       right_P1 = false;
     });
 
-    aBtn_P1.addEventListener("mousedown", function () {
+    aBtn_P1.addEventListener("mousedown", function() {
       a_P1 = true;
     });
-    aBtn_P1.addEventListener("mouseup", function () {
+    aBtn_P1.addEventListener("mouseup", function() {
       a_P1 = false;
     });
-    aBtn_P1.addEventListener("touchstart", function () {
+    aBtn_P1.addEventListener("touchstart", function() {
       a_P1 = true;
     });
-    aBtn_P1.addEventListener("touchend", function () {
+    aBtn_P1.addEventListener("touchend", function() {
       a_P1 = false;
     });
 
-    bBtn_P1.addEventListener("mousedown", function () {
+    bBtn_P1.addEventListener("mousedown", function() {
       b_P1 = true;
     });
-    bBtn_P1.addEventListener("mouseup", function () {
+    bBtn_P1.addEventListener("mouseup", function() {
       b_P1 = false;
     });
-    bBtn_P1.addEventListener("touchstart", function () {
+    bBtn_P1.addEventListener("touchstart", function() {
       b_P1 = true;
     });
-    bBtn_P1.addEventListener("touchend", function () {
+    bBtn_P1.addEventListener("touchend", function() {
       b_P1 = false;
     });
 
     // player 2 buttons
-    leftBtn_P2.addEventListener("mousedown", function () {
+    leftBtn_P2.addEventListener("mousedown", function() {
       left_P2 = true;
     });
-    leftBtn_P2.addEventListener("mouseup", function () {
+    leftBtn_P2.addEventListener("mouseup", function() {
       left_P2 = false;
     });
-    leftBtn_P2.addEventListener("touchstart", function () {
+    leftBtn_P2.addEventListener("touchstart", function() {
       left_P2 = true;
     });
-    leftBtn_P2.addEventListener("touchend", function () {
+    leftBtn_P2.addEventListener("touchend", function() {
       left_P2 = false;
     });
 
-    rightBtn_P2.addEventListener("mousedown", function () {
+    rightBtn_P2.addEventListener("mousedown", function() {
       right_P2 = true;
     });
-    rightBtn_P2.addEventListener("mouseup", function () {
+    rightBtn_P2.addEventListener("mouseup", function() {
       right_P2 = false;
     });
-    rightBtn_P2.addEventListener("touchstart", function () {
+    rightBtn_P2.addEventListener("touchstart", function() {
       right_P2 = true;
     });
-    rightBtn_P2.addEventListener("touchend", function () {
+    rightBtn_P2.addEventListener("touchend", function() {
       right_P2 = false;
     });
 
-    aBtn_P2.addEventListener("mousedown", function () {
+    aBtn_P2.addEventListener("mousedown", function() {
       a_P2 = true;
     });
-    aBtn_P2.addEventListener("mouseup", function () {
+    aBtn_P2.addEventListener("mouseup", function() {
       a_P2 = false;
     });
-    aBtn_P2.addEventListener("touchstart", function () {
+    aBtn_P2.addEventListener("touchstart", function() {
       a_P2 = true;
     });
-    aBtn_P2.addEventListener("touchend", function () {
+    aBtn_P2.addEventListener("touchend", function() {
       a_P2 = false;
     });
 
-    bBtn_P2.addEventListener("mousedown", function () {
+    bBtn_P2.addEventListener("mousedown", function() {
       b_P2 = true;
     });
-    bBtn_P2.addEventListener("mouseup", function () {
+    bBtn_P2.addEventListener("mouseup", function() {
       b_P2 = false;
     });
-    bBtn_P2.addEventListener("touchstart", function () {
+    bBtn_P2.addEventListener("touchstart", function() {
       b_P2 = true;
     });
-    bBtn_P2.addEventListener("touchend", function () {
+    bBtn_P2.addEventListener("touchend", function() {
       b_P2 = false;
     });
 
@@ -762,22 +749,22 @@ class Game extends Component {
   render() {
     return (
       <div>
-        <div className="container">
+        <div class="container">
           <div id="game">
             <canvas id="canvas" />
             <div id="health-bars">
-              <div className="health-label">
+              <div class="health-label">
                 <strong>Player 1</strong>
                 <br />
                 <span id="p1-kills">0</span> KO(s)
               </div>
-              <div className="health">
-                <span className="fill" id="p1-health" />
+              <div class="health">
+                <span class="fill" id="p1-health" />
               </div>
-              <div className="health">
-                <span className="fill" id="p2-health" />
+              <div class="health">
+                <span class="fill" id="p2-health" />
               </div>
-              <div className="health-label">
+              <div class="health-label">
                 <strong>Player 2</strong>
                 <br />
                 <span id="p2-kills">0</span> KO(s)
@@ -786,30 +773,30 @@ class Game extends Component {
           </div>
           <div id="controls">
             <div id="p1-ctrls">
-              <div className="move" id="p1-left">
-                <span className="arrow-left" />
+              <div class="move" id="p1-left">
+                <span class="arrow-left" />
               </div>
-              <div className="move" id="p1-right">
-                <span className="arrow-right" />
+              <div class="move" id="p1-right">
+                <span class="arrow-right" />
               </div>
-              <div className="a-btn" id="p1-up">
+              <div class="a-btn" id="p1-up">
                 A
               </div>
-              <div className="b-btn" id="p1-atk">
+              <div class="b-btn" id="p1-atk">
                 B
               </div>
             </div>
             <div id="p2-ctrls">
-              <div className="move" id="p2-left">
-                <span className="arrow-left" />
+              <div class="move" id="p2-left">
+                <span class="arrow-left" />
               </div>
-              <div className="move" id="p2-right">
-                <span className="arrow-right" />
+              <div class="move" id="p2-right">
+                <span class="arrow-right" />
               </div>
-              <div className="a-btn" id="p2-up">
+              <div class="a-btn" id="p2-up">
                 A
               </div>
-              <div className="b-btn" id="p2-atk">
+              <div class="b-btn" id="p2-atk">
                 B
               </div>
             </div>

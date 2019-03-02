@@ -1,9 +1,5 @@
-# from websocket import create_connection
-# ws = create_connection("ws://10.168.74.81:8000/socket.io/?EIO=3&transport=websocket")
-# print("Sending 'Hello, World'...")
-# ws.send("subscribeToMovement")
-
 import socketio
+import eventlet
 
 sio = socketio.Client()
 
@@ -27,4 +23,28 @@ def on_disconnect():
 sio.connect('http://10.168.74.81:8000')
 
 sio.emit('subscribeToMovement', {'response': 'my refsdafsadfdsafassponse'})
+
+sio.emit('movement', {'response': 'my refsdafsadfdsafassponse'})
 sio.wait()
+
+
+
+# sio = socketio.Server()
+# app = socketio.WSGIApp(sio, static_files={
+#     '/': {'content_type': 'text/html', 'filename': 'index.html'}
+# })
+
+# @sio.on('connect')
+# def connect(sid, environ):
+#     print('connect ', sid)
+
+# @sio.on('subscribeToMovement')
+# def message(sid, data):
+#     print('subscribeToMovement ', data)
+
+# @sio.on('disconnect')
+# def disconnect(sid):
+#     print('disconnect ', sid)
+
+# if __name__ == '__main__':
+#     eventlet.wsgi.server(eventlet.listen(('localhost', 8000)), app)
