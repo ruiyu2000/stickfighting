@@ -7,8 +7,11 @@ io.on("connection", client => {
   });
 
   client.on("movement", function(data) {
+    console.log(data);
     if (data.score > 0.3) {
-      client.broadcast.emit("action");
+      client.broadcast.emit("action", data);
+    } else if (data.score > 0 && data.score < 0.3) {
+      client.broadcast.emit("action", data);
     }
   });
 });

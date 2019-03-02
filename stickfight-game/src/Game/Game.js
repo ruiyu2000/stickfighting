@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./game.css";
 import openSocket from "socket.io-client";
 const socket = openSocket("http://localhost:8000");
-
+var background = require("./back.svg");
 class Game extends Component {
   componentDidMount() {
     socket.emit("subscribeToMovement");
@@ -182,11 +182,7 @@ class Game extends Component {
     // load player 2 sprites
     for (var j = 0; j <= maxFrames; ++j) {
       player2Sprites[j] = new Image();
-      var src =
-        "https://jonkantner.com/experiments/stick_fight/sprites/player2/player" +
-        j +
-        ".svg";
-      player2Sprites[j].src = src;
+      player2Sprites[j].src = require("./p2" + j + ".svg");
 
       if (j === maxFrames) {
         anim2 = function() {
@@ -283,10 +279,78 @@ class Game extends Component {
     //player 1 actions from SERVER WOOT
     socket.on("action", function(message) {
       console.log("action from server: " + message);
-      triggerKeyEvent(16, "keydown", "shift");
-      setTimeout(function() {
-        triggerKeyEvent(16, "keyup", "shift");
-      }, 200);
+
+      if (message.index === 0) {
+        //player 1
+        if (message.score > 0.5) {
+          triggerKeyEvent(16, "keydown", "shift");
+          setTimeout(function() {
+            player1.lastDir = player2.x < player1.x ? "l" : "r";
+            triggerKeyEvent(16, "keyup", "shift");
+          }, 200);
+        } else if (message.score < 0.05 && message.score > 0.02) {
+          if (player2.x + 40 < player1.x) {
+            triggerKeyEvent(65, "keydown", "left");
+            setTimeout(function() {
+              player1.lastDir = player2.x < player1.x ? "l" : "r";
+              triggerKeyEvent(65, "keyup", "left");
+            }, 200);
+          } else if (player2.x - 40 > player1.x) {
+            triggerKeyEvent(68, "keydown", "right");
+            setTimeout(function() {
+              player1.lastDir = player2.x < player1.x ? "l" : "r";
+              triggerKeyEvent(68, "keyup", "right");
+            }, 200);
+          }
+        } else {
+          if (player2.x <= player1.x) {
+            triggerKeyEvent(68, "keydown", "right");
+            setTimeout(function() {
+              triggerKeyEvent(68, "keyup", "right");
+            }, 200);
+          } else if (player2 >= player1.x) {
+            triggerKeyEvent(65, "keydown", "left");
+            setTimeout(function() {
+              triggerKeyEvent(65, "keyup", "left");
+            }, 200);
+          }
+        }
+      } else {
+        //player 2
+        if (message.score > 0.5) {
+          triggerKeyEvent(186, "keydown", ";");
+          setTimeout(function() {
+            player2.lastDir = player1.x < player2.x ? "l" : "r";
+            triggerKeyEvent(186, "keyup", ";");
+          }, 200);
+        } else if (message.score < 0.05 && message.score > 0.02) {
+          if (player1.x + 40 < player2.x) {
+            triggerKeyEvent(37, "keydown", "left");
+            setTimeout(function() {
+              player2.lastDir = player1.x < player2.x ? "l" : "r";
+              triggerKeyEvent(37, "keyup", "left");
+            }, 200);
+          } else if (player1.x - 40 > player2.x) {
+            triggerKeyEvent(39, "keydown", "right");
+            setTimeout(function() {
+              player2.lastDir = player1.x < player2.x ? "l" : "r";
+              triggerKeyEvent(39, "keyup", "right");
+            }, 200);
+          }
+        } else {
+          if (player2.x >= player1.x) {
+            triggerKeyEvent(37, "keydown", "right");
+            setTimeout(function() {
+              triggerKeyEvent(37, "keyup", "right");
+            }, 200);
+          } else if (player2 <= player1.x) {
+            triggerKeyEvent(39, "keydown", "left");
+            setTimeout(function() {
+              triggerKeyEvent(39, "keyup", "left");
+            }, 200);
+          }
+        }
+      }
     });
 
     function update() {
@@ -346,9 +410,9 @@ class Game extends Component {
         }
       }
 
-      //Player2 AI WTF YO
+      //
       //Nikhil
-      if (player1.x + 120 < player2.x) {
+      /*  if (player1.x + 120 < player2.x) {
         //we are to the right, move towards p1 on the left
         triggerKeyEvent(37, "keydown", "left");
         setTimeout(function() {
@@ -368,10 +432,13 @@ class Game extends Component {
             }, 200);
           }, 1200);
         }
-      }
+      }*/
 
       // render stage
       ctx.clearRect(0, 0, width, height);
+      var backImg = new Image();
+      backImg.src = background;
+      ctx.drawImage(backImg, 0, 0);
       ctx.fillStyle = "#000";
       ctx.beginPath();
 
@@ -385,7 +452,6 @@ class Game extends Component {
           platforms[k].width,
           platforms[k].height
         );
-
         var dir1 = colCheck(player1, platforms[k]);
         var dir2 = colCheck(player2, platforms[k]);
 
@@ -736,7 +802,7 @@ class Game extends Component {
       y: 0,
       width: width,
       height: platThickness
-    });
+    }); /*
     // platforms
     platforms.push({
       x: 0,
@@ -755,7 +821,7 @@ class Game extends Component {
       y: height - 240,
       width: 180,
       height: platThickness
-    });
+    });*/
   }
 
   render() {
