@@ -3,9 +3,14 @@ global.XMLHttpRequest = require("xhr2");
 //  const tf = require('@tensorflow/tfjs');
 require("@tensorflow/tfjs-node");
 
+<<<<<<< HEAD
 const fetch = require("node-fetch");
 const { Image, createCanvas } = require("canvas");
 const posenet = require("@tensorflow-models/posenet");
+=======
+const fetch = require('node-fetch');
+const posenet = require('@tensorflow-models/posenet')
+>>>>>>> fa29e28e0b33e72d5254a79a380b455b1ec49d46
 
 async function run() {
   let img_path =
@@ -32,4 +37,40 @@ async function run() {
   return pose;
 }
 
+<<<<<<< HEAD
 run();
+=======
+// run();
+
+var NodeWebcam = require("node-webcam");
+
+var opts = {
+    width: 1280,
+    height: 720,
+    quality: 100,
+    delay: 0,
+    saveShots: true,
+    output: "jpeg",
+    device: false,
+    callbackReturn: "location",
+    verbose: false
+};
+
+var Webcam = NodeWebcam.create( opts );
+
+// Webcam.capture( "test_picture", function( err, data ) {} );
+
+// NodeWebcam.capture( "test_picture", opts, function( err, data ) {
+
+// });
+
+
+//Get list of cameras
+
+Webcam.list( function( list ) {
+  console.log('foobar', list)
+    //Use another device
+    var anotherCam = NodeWebcam.create( { device: list[ 0 ] } );
+
+});
+>>>>>>> fa29e28e0b33e72d5254a79a380b455b1ec49d46
