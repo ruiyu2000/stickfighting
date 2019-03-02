@@ -121,7 +121,6 @@ def run_inference(num_frames, on_loaded):
     with CameraInference(face_detection.model()) as inference:
         on_loaded()
         for result in inference.run(num_frames):
-            logger.info(result)
             yield face_detection.get_faces(result), (result.width, result.height)
 
 
@@ -367,6 +366,7 @@ def joy_detector(num_frames, preview_alpha, image_format, image_folder,
         joy_threshold_detector = threshold_detector(JOY_SCORE_LOW, JOY_SCORE_HIGH)
         joy_threshold_detector.send(None)  # Initialize.
         for faces, frame_size in run_inference(num_frames, model_loaded):
+            logger.info(faces)
             photographer.update_faces((faces, frame_size))
             joy_score = joy_moving_average.send(average_joy_score(faces))
 
