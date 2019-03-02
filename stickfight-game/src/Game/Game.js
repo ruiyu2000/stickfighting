@@ -362,9 +362,7 @@ class Game extends Component {
         }, 200);
       } else {
         if (punchTimeout == null) {
-          console.log("setting punchTimeout");
           punchTimeout = setInterval(function() {
-            console.log("hit");
             triggerKeyEvent(186, "keydown", "shift");
             setTimeout(function() {
               triggerKeyEvent(186, "keyup", "shift");
