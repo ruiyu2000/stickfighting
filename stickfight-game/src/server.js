@@ -4,15 +4,13 @@ io.on("connection", client => {
   client.on("subscribeToMovement", interval => {
     console.log("client is subscribing to movement data ");
     client.emit("server", "ready");
-
-    setInterval(function() {
-      client.emit("action", "hit");
-    }, 5000);
   });
 
-  client.on("update", function(data) {
-    console.log("GOT MESSAGE", data);
-  }); // listen to the event
+  client.on("movement", function(data) {
+    if (data.score > 0.3) {
+      client.broadcast.emit("action");
+    }
+  });
 });
 
 const port = 8000;
