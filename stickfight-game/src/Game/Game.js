@@ -80,12 +80,9 @@ class Game extends Component {
     // load player 1 sprites
     for (var i = 0; i <= maxFrames; ++i) {
       player1Sprites[i] = new Image();
-      player1Sprites[i].src =
-        "https://jonkantner.com/experiments/stick_fight/sprites/player1/player" +
-        i +
-        ".svg";
+      player1Sprites[i].src = process.env.PUBLIC_URL + '/images/sprites/' + i + '.svg';
       if (i == maxFrames) {
-        anim1 = function() {
+        anim1 = function () {
           if (player1.dead == false) {
             if (
               (keys[65] && !player1.jumping) ||
@@ -128,7 +125,7 @@ class Game extends Component {
                   if (
                     player1.x - player1.range <= player2.x + player2.width &&
                     player1.x - player1.range >=
-                      player2.x - player2.width / 2 &&
+                    player2.x - player2.width / 2 &&
                     player1.y >= player2.y &&
                     player1.y <= player2.y + player2.height
                   ) {
@@ -152,7 +149,7 @@ class Game extends Component {
                   if (
                     player1.x + player1.width + player1.range >= player2.x &&
                     player1.x + player1.width + player1.range <=
-                      player2.x + player2.width * 1.5 &&
+                    player2.x + player2.width * 1.5 &&
                     player1.y >= player2.y &&
                     player1.y <= player2.y + player2.height
                   ) {
@@ -184,7 +181,7 @@ class Game extends Component {
         j +
         ".svg";
       if (j == maxFrames) {
-        anim2 = function() {
+        anim2 = function () {
           if (player2.dead == false) {
             if (
               (keys[37] && !player2.jumping) ||
@@ -227,7 +224,7 @@ class Game extends Component {
                   if (
                     player2.x - player2.range <= player1.x + player1.width &&
                     player2.x - player2.range >=
-                      player1.x - player1.width / 2 &&
+                    player1.x - player1.width / 2 &&
                     player2.y >= player1.y &&
                     player2.y <= player1.y + player1.height
                   ) {
@@ -251,7 +248,7 @@ class Game extends Component {
                   if (
                     player2.x + player2.width + player2.range >= player1.x &&
                     player2.x + player2.width + player2.range <=
-                      player1.x + player1.width * 1.5 &&
+                    player1.x + player1.width * 1.5 &&
                     player2.y >= player1.y &&
                     player2.y <= player1.y + player1.height
                   ) {
@@ -337,21 +334,21 @@ class Game extends Component {
       if (player1.x + 120 < player2.x) {
         //we are to the right, move towards p1 on the left
         triggerKeyEvent(37, "keydown", "left");
-        setTimeout(function() {
+        setTimeout(function () {
           triggerKeyEvent(37, "keyup", "left");
         }, 200);
       } else if (player1.x - 120 > player2.x) {
         triggerKeyEvent(39, "keydown", "right");
-        setTimeout(function() {
+        setTimeout(function () {
           triggerKeyEvent(39, "keyup", "right");
         }, 200);
       } else {
         if (punchTimeout == null) {
           console.log("setting punchTimeout");
-          punchTimeout = setInterval(function() {
+          punchTimeout = setInterval(function () {
             console.log("hit");
             triggerKeyEvent(186, "keydown", "shift");
-            setTimeout(function() {
+            setTimeout(function () {
               triggerKeyEvent(186, "keyup", "shift");
             }, 200);
           }, 1200);
@@ -505,7 +502,7 @@ class Game extends Component {
       if (victim.health <= 0) {
         victim.dead = true;
         deathTime = 1;
-        setTimeout(function() {
+        setTimeout(function () {
           respawn(victim, victimHealth);
         }, 400);
       }
@@ -558,13 +555,13 @@ class Game extends Component {
       healthToFill.style.background = "#0a0";
     }
 
-    window.addEventListener("load", function() {
+    window.addEventListener("load", function () {
       update();
     });
-    document.body.addEventListener("keydown", function(e) {
+    document.body.addEventListener("keydown", function (e) {
       keys[e.keyCode] = true;
     });
-    document.body.addEventListener("keyup", function(e) {
+    document.body.addEventListener("keyup", function (e) {
       keys[e.keyCode] = false;
     });
 
@@ -589,108 +586,108 @@ class Game extends Component {
       b_P2 = false;
 
     // player 1 buttons
-    leftBtn_P1.addEventListener("mousedown", function() {
+    leftBtn_P1.addEventListener("mousedown", function () {
       left_P1 = true;
     });
-    leftBtn_P1.addEventListener("mouseup", function() {
+    leftBtn_P1.addEventListener("mouseup", function () {
       left_P1 = false;
     });
-    leftBtn_P1.addEventListener("touchstart", function() {
+    leftBtn_P1.addEventListener("touchstart", function () {
       left_P1 = true;
     });
-    leftBtn_P1.addEventListener("touchend", function() {
+    leftBtn_P1.addEventListener("touchend", function () {
       left_P1 = false;
     });
 
-    rightBtn_P1.addEventListener("mousedown", function() {
+    rightBtn_P1.addEventListener("mousedown", function () {
       right_P1 = true;
     });
-    rightBtn_P1.addEventListener("mouseup", function() {
+    rightBtn_P1.addEventListener("mouseup", function () {
       right_P1 = false;
     });
-    rightBtn_P1.addEventListener("touchstart", function() {
+    rightBtn_P1.addEventListener("touchstart", function () {
       right_P1 = true;
     });
-    rightBtn_P1.addEventListener("touchend", function() {
+    rightBtn_P1.addEventListener("touchend", function () {
       right_P1 = false;
     });
 
-    aBtn_P1.addEventListener("mousedown", function() {
+    aBtn_P1.addEventListener("mousedown", function () {
       a_P1 = true;
     });
-    aBtn_P1.addEventListener("mouseup", function() {
+    aBtn_P1.addEventListener("mouseup", function () {
       a_P1 = false;
     });
-    aBtn_P1.addEventListener("touchstart", function() {
+    aBtn_P1.addEventListener("touchstart", function () {
       a_P1 = true;
     });
-    aBtn_P1.addEventListener("touchend", function() {
+    aBtn_P1.addEventListener("touchend", function () {
       a_P1 = false;
     });
 
-    bBtn_P1.addEventListener("mousedown", function() {
+    bBtn_P1.addEventListener("mousedown", function () {
       b_P1 = true;
     });
-    bBtn_P1.addEventListener("mouseup", function() {
+    bBtn_P1.addEventListener("mouseup", function () {
       b_P1 = false;
     });
-    bBtn_P1.addEventListener("touchstart", function() {
+    bBtn_P1.addEventListener("touchstart", function () {
       b_P1 = true;
     });
-    bBtn_P1.addEventListener("touchend", function() {
+    bBtn_P1.addEventListener("touchend", function () {
       b_P1 = false;
     });
 
     // player 2 buttons
-    leftBtn_P2.addEventListener("mousedown", function() {
+    leftBtn_P2.addEventListener("mousedown", function () {
       left_P2 = true;
     });
-    leftBtn_P2.addEventListener("mouseup", function() {
+    leftBtn_P2.addEventListener("mouseup", function () {
       left_P2 = false;
     });
-    leftBtn_P2.addEventListener("touchstart", function() {
+    leftBtn_P2.addEventListener("touchstart", function () {
       left_P2 = true;
     });
-    leftBtn_P2.addEventListener("touchend", function() {
+    leftBtn_P2.addEventListener("touchend", function () {
       left_P2 = false;
     });
 
-    rightBtn_P2.addEventListener("mousedown", function() {
+    rightBtn_P2.addEventListener("mousedown", function () {
       right_P2 = true;
     });
-    rightBtn_P2.addEventListener("mouseup", function() {
+    rightBtn_P2.addEventListener("mouseup", function () {
       right_P2 = false;
     });
-    rightBtn_P2.addEventListener("touchstart", function() {
+    rightBtn_P2.addEventListener("touchstart", function () {
       right_P2 = true;
     });
-    rightBtn_P2.addEventListener("touchend", function() {
+    rightBtn_P2.addEventListener("touchend", function () {
       right_P2 = false;
     });
 
-    aBtn_P2.addEventListener("mousedown", function() {
+    aBtn_P2.addEventListener("mousedown", function () {
       a_P2 = true;
     });
-    aBtn_P2.addEventListener("mouseup", function() {
+    aBtn_P2.addEventListener("mouseup", function () {
       a_P2 = false;
     });
-    aBtn_P2.addEventListener("touchstart", function() {
+    aBtn_P2.addEventListener("touchstart", function () {
       a_P2 = true;
     });
-    aBtn_P2.addEventListener("touchend", function() {
+    aBtn_P2.addEventListener("touchend", function () {
       a_P2 = false;
     });
 
-    bBtn_P2.addEventListener("mousedown", function() {
+    bBtn_P2.addEventListener("mousedown", function () {
       b_P2 = true;
     });
-    bBtn_P2.addEventListener("mouseup", function() {
+    bBtn_P2.addEventListener("mouseup", function () {
       b_P2 = false;
     });
-    bBtn_P2.addEventListener("touchstart", function() {
+    bBtn_P2.addEventListener("touchstart", function () {
       b_P2 = true;
     });
-    bBtn_P2.addEventListener("touchend", function() {
+    bBtn_P2.addEventListener("touchend", function () {
       b_P2 = false;
     });
 
