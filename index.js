@@ -4,7 +4,6 @@ const tf = require('@tensorflow/tfjs');
 require('@tensorflow/tfjs-node');
 
 const fetch = require('node-fetch');
-const {Image, createCanvas} = require('canvas');
 const posenet = require('@tensorflow-models/posenet')
 
 async function run() {
@@ -26,4 +25,36 @@ async function run() {
   return pose;
 }
 
-run();
+// run();
+
+var NodeWebcam = require("node-webcam");
+
+var opts = {
+    width: 1280,
+    height: 720,
+    quality: 100,
+    delay: 0,
+    saveShots: true,
+    output: "jpeg",
+    device: false,
+    callbackReturn: "location",
+    verbose: false
+};
+
+var Webcam = NodeWebcam.create( opts );
+
+// Webcam.capture( "test_picture", function( err, data ) {} );
+
+// NodeWebcam.capture( "test_picture", opts, function( err, data ) {
+
+// });
+
+
+//Get list of cameras
+
+Webcam.list( function( list ) {
+  console.log('foobar', list)
+    //Use another device
+    var anotherCam = NodeWebcam.create( { device: list[ 0 ] } );
+
+});
