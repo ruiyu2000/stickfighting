@@ -26,7 +26,6 @@ import sys
 import threading
 import time
 import socketio
-import engineio
 import eventlet
 
 
