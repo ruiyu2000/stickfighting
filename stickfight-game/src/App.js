@@ -4,10 +4,11 @@ import Game from "./Game/Game";
 
 class App extends Component {
   render() {
+    console.log(process.env.PUBLIC_URL)
     return (
       <div className="App">
         <header className="App-header" />
-        <Game />
+        <Game publicUrl={process.env.PUBLIC_URL} />
       </div>
     );
   }

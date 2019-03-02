@@ -25,6 +25,9 @@ import signal
 import sys
 import threading
 import time
+import socketio
+import eventlet
+
 
 from PIL import Image, ImageDraw, ImageFont
 from picamera import PiCamera
@@ -36,6 +39,54 @@ from aiy.vision.inference import CameraInference
 from aiy.vision.models import face_detection
 from aiy.vision.streaming.server import StreamingServer
 from aiy.vision.streaming import svg
+
+
+# sio = socketio.Server()
+# app = socketio.WSGIApp(sio, static_files={
+#     '/': {'content_type': 'text/html', 'filename': 'index.html'}
+# })
+
+# @sio.on('connect')
+# def connect(sid, environ):
+#     print('connect ', sid)
+
+# @sio.on('subscribeToMovement')
+# def message(sid, data):
+#     print('subscribeToMovement ', data)
+
+# @sio.on('disconnect')
+# def disconnect(sid):
+#     print('disconnect ', sid)
+
+# if __name__ == '__main__':
+#     eventlet.wsgi.server(eventlet.listen(('', 5000)), app)
+
+
+sio = socketio.Client()
+
+@sio.on('connect')
+def on_connect():
+    print('connection established')
+
+# @sio.on('movement')
+# def on_message(data):
+#     # print('message received with ', data)
+#     sio.emit('movement', {'response': 'my response'})
+
+@sio.on('server')
+def on_server(data):
+    print('on server', data)
+
+@sio.on('disconnect')
+def on_disconnect():
+    print('disconnected from server')
+
+sio.connect('http://10.168.74.81:8000')
+
+sio.emit('subscribeToMovement', {'response': 123})
+
+sio.wait()
+
 
 logger = logging.getLogger(__name__)
 
@@ -317,6 +368,9 @@ def joy_detector(num_frames, preview_alpha, image_format, image_folder,
         for faces, frame_size in run_inference(num_frames, model_loaded):
             photographer.update_faces((faces, frame_size))
             joy_score = joy_moving_average.send(average_joy_score(faces))
+
+            sio.emit('movement', {'score': joy_score})
+
             animator.update_joy_score(joy_score)
             event = joy_threshold_detector.send(joy_score)
             if event == 'high':

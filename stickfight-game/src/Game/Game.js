@@ -86,13 +86,10 @@ class Game extends Component {
     // load player 1 sprites
     for (var i = 0; i <= maxFrames; ++i) {
       player1Sprites[i] = new Image();
-      player1Sprites[i].src =
-        "https://jonkantner.com/experiments/stick_fight/sprites/player1/player" +
-        i +
-        ".svg";
-      if (i == maxFrames) {
+      player1Sprites[i].src = require("./" + i + ".svg");
+      if (i === maxFrames) {
         anim1 = function() {
-          if (player1.dead == false) {
+          if (player1.dead === false) {
             if (
               (keys[65] && !player1.jumping) ||
               (left_P1 === true && !player1.jumping)
@@ -185,13 +182,15 @@ class Game extends Component {
     // load player 2 sprites
     for (var j = 0; j <= maxFrames; ++j) {
       player2Sprites[j] = new Image();
-      player2Sprites[j].src =
+      var src =
         "https://jonkantner.com/experiments/stick_fight/sprites/player2/player" +
         j +
         ".svg";
-      if (j == maxFrames) {
+      player2Sprites[j].src = src;
+
+      if (j === maxFrames) {
         anim2 = function() {
-          if (player2.dead == false) {
+          if (player2.dead === false) {
             if (
               (keys[37] && !player2.jumping) ||
               (left_P2 === true && !player2.jumping)
@@ -361,7 +360,7 @@ class Game extends Component {
           triggerKeyEvent(39, "keyup", "right");
         }, 200);
       } else {
-        if (punchTimeout == null) {
+        if (punchTimeout === null) {
           punchTimeout = setInterval(function() {
             triggerKeyEvent(186, "keydown", "shift");
             setTimeout(function() {
